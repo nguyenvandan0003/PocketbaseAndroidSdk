@@ -1,11 +1,15 @@
 package com.dannv.pocketbasesdk.di
 
+import android.content.Context
+import com.dannv.pocketbasesdk.R
 import com.dannv.pocketbasesdk.api.PocketBaseServices
+import com.dannv.pocketbasesdk.api.PocketConstants
 import com.dannv.pocketbasesdk.impl.PocketbaseImpl
 import com.dannv.pocketbasesdk.storge.PocketBaseSharePrefUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -49,21 +53,12 @@ object RetrofitDi {
 
 	@Singleton
 	@Provides
-	fun providerRetrofit(httpClient: OkHttpClient): Retrofit {
+	fun providerRetrofit(@ApplicationContext context : Context, httpClient: OkHttpClient): Retrofit {
 		return Retrofit.Builder()
-			.baseUrl("https://androidsdk.fly.dev")
+			.baseUrl(if (PocketConstants.URL_BASE_URL.isNotEmpty()) PocketConstants.URL_BASE_URL else context.getString(R.string.base_url))
 			.addConverterFactory(ScalarsConverterFactory.create())
 			.client(httpClient)
 			.build()
-	}
-
-	// Method to set the new base URL dynamically
-	fun setBaseUrl(newBaseUrl: String) {
-		val newRetrofit = providerRetrofit(providerLogger(provideLoggingInterceptor()))
-			.newBuilder()
-			.baseUrl(newBaseUrl)
-			.build()
-		providerServices(newRetrofit)
 	}
 
 	@Singleton
