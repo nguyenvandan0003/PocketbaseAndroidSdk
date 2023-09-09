@@ -1,5 +1,6 @@
 package com.dannv.pocketbasesdk.impl
 
+import android.text.TextUtils
 import android.util.Log
 import com.dannv.pocketbasesdk.api.PocketBaseServices
 import com.dannv.pocketbasesdk.api.PocketbaseError
@@ -31,6 +32,21 @@ class PocketbaseImpl(var services: PocketBaseServices) {
 			}
 		} catch (e: Exception) {
 			throw e
+		}
+	}
+
+	suspend fun <P> resetPassword(param: P): Boolean {
+		var response: String? = null
+		try {
+			response =  services.resetPassword(param.createRequestBody())
+			return !response.isNullOrBlank() || TextUtils.equals(response.toString(), "null")
+		} catch (e: UnknownHostException) {
+			return false
+		} catch (e: HttpException) {
+			return false
+
+		} catch (e: Exception) {
+			return false
 		}
 	}
 
