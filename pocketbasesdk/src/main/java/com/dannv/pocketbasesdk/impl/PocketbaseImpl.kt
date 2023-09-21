@@ -72,6 +72,28 @@ class PocketbaseImpl(var services: PocketBaseServices) {
 			throw e
 		}
 	}
+
+	suspend fun <T> getDetail(collecttion: String,
+									  id: String,
+									  clazz: Class<T>): T {
+		var response = ""
+		try {
+			response = services.fetchDetail(collecttion, id)
+			return Gson().fromJson(response, clazz)
+		} catch (e: UnknownHostException) {
+			throw e
+		}  catch (e: HttpException) {
+			try {
+				var error = ((e as HttpException).response()?.errorBody() as ResponseBody).string()
+				throw PocketbaseErrorException(Gson().fromJson(error, PocketbaseError::class.java))
+			} catch (e: Exception) {
+				throw e
+			}
+		} catch (e: Exception) {
+			throw e
+		}
+	}
+
 	suspend fun <T> search(collecttion: String,
 									  page: Int = 1,
 									  perpage: Int = 30,
