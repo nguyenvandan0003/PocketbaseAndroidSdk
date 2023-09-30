@@ -44,7 +44,7 @@ object RetrofitDi {
 
 			val request: Request.Builder = original.newBuilder()
 			if (token.isNotEmpty()) {
-				request.addHeader("Authorization:", "$token")
+				request.addHeader("Authorization", "$token")
 			}
 			chain.proceed(request.build())
 		})
