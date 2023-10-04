@@ -98,10 +98,11 @@ class PocketbaseImpl(var services: PocketBaseServices) {
 									  page: Int = 1,
 									  perpage: Int = 30,
 									  sort: String = "?sort=-created",
+						              filter: String,
 									  clazz: Class<T>): T {
 		var response = ""
 		try {
-			response = services.search(collecttion, page, perpage, sort)
+			response = services.search(collecttion, page, perpage, sort, filter)
 			return Gson().fromJson(response, clazz)
 		} catch (e: UnknownHostException) {
 			throw e
