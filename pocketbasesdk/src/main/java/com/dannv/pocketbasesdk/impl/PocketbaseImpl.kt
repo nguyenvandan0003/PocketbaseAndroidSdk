@@ -35,6 +35,25 @@ class PocketbaseImpl(var services: PocketBaseServices) {
 		}
 	}
 
+	suspend fun <T> refreshToken(clazz: Class<T>): T {
+		var response = ""
+		try {
+			response =  services.refreshToken()
+			return Gson().fromJson(response, clazz)
+		} catch (e: UnknownHostException) {
+			throw e
+		} catch (e: HttpException) {
+			try {
+				var error = ((e as HttpException).response()?.errorBody() as ResponseBody).string()
+				throw PocketbaseErrorException(Gson().fromJson(error, PocketbaseError::class.java))
+			} catch (e: Exception) {
+				throw e
+			}
+		} catch (e: Exception) {
+			throw e
+		}
+	}
+
 	suspend fun <P> resetPassword(param: P): Boolean {
 		var response: String? = null
 		try {

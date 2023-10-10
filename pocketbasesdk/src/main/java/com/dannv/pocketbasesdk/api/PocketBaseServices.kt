@@ -14,7 +14,7 @@ interface PocketBaseServices {
 	suspend fun login(@Body requestBody: RequestBody): String
 
 	@POST("/api/collections/users/auth-refresh")
-	suspend fun refreshToken(@Body requestBody: RequestBody): String
+	suspend fun refreshToken(): String
 
 	@POST("/api/collections/users/request-password-reset")
 	suspend fun resetPassword(@Body requestBody: RequestBody): String
