@@ -116,7 +116,7 @@ class PocketbaseImpl(var services: PocketBaseServices) {
 	suspend fun <T> search(collecttion: String,
 									  page: Int = 1,
 									  perpage: Int = 30,
-									  sort: String = "?sort=-created",
+									  sort: String = "-created",
 						              filter: String,
 									  clazz: Class<T>): T {
 		var response = ""
