@@ -28,7 +28,7 @@ interface PocketBaseServices {
 		@Path("colect") collection: String,
 		@Query("page") page: Int = 1,
 		@Query("perPage") perPage: Int = 30,
-		@Query("sort") sort: String = "?sort=-created",
+		@Query("sort") sort: String = "-created",
 		): String
 
 	@GET("/api/collections/{colect}/records")
