@@ -28,6 +28,10 @@ object RetrofitDi {
 		token = PocketBaseSharePrefUtils.token ?: ""
 	}
 
+	private var isLog = false
+	fun setLogger(isLoG: Boolean) {
+		isLog = isLoG
+	}
 	@Provides
 	@Singleton
 	fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -38,7 +42,9 @@ object RetrofitDi {
 	@Provides
 	fun providerLogger(interceptor: HttpLoggingInterceptor): OkHttpClient {
 		val client = OkHttpClient.Builder()
-		client.addInterceptor(interceptor)
+		if (isLog) {
+			client.addInterceptor(interceptor)
+		}
 		client.addInterceptor(Interceptor { chain: Interceptor.Chain ->
 			val original: Request = chain.request()
 
