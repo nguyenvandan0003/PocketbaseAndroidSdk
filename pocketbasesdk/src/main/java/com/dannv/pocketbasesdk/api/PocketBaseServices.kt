@@ -2,6 +2,7 @@ package com.dannv.pocketbasesdk.api
 
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -46,7 +47,7 @@ interface PocketBaseServices {
 		@Path("id") id: String,
 		): String
 
-	@GET("/api/collections/{colect}/records/{id}")
+	@DELETE("/api/collections/{colect}/records/{id}")
 	suspend fun delete(
 		@Path("colect") collection: String,
 		@Path("id") id: String,
